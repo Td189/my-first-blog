@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sales Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'sales/css/sales.css' %}">
+</head>
+
+<body>
+    {% if user.is_staff %}
+    <a
+        href="{% url 'sales:product_new' %}"
+        class="primary-button"
+    >
+        Add Product
+    </a>
+{% else %}
+    <a
+        href="{% url 'admin:login' %}?next={% url 'sales:product_new' %}"
+        class="primary-button"
+    >
+        Admin Login
+    </a>
+{% endif %}
+    <h1>Weekly Product Sales</h1>
+
+    <p>
+        Each product moves according to its weekly sales.
+    </p>
+    <!---
+    <header class="page-header">
+        <p class="eyebrow">
+            Sales dashboard
+        </p>
+-->
+    <nav class="header-actions">
+        <a href="/blog/" class="secondary-button">
+            View Blog
+        </a>
+
+        {% if user.is_staff %}
+        <a href="{% url 'sales:product_new' %}" class="primary-button">
+            Add Product
+        </a>
+
+        <a href="{% url 'admin:index' %}" class="secondary-button">
+            Admin
+        </a>
+        {% endif %}
+    </nav>
+
+    <button id="replay-button" type="button">
+        Replay Animation
+    </button>
+    </header>
+
+    <main class="sales-container">
+        <section class="sales-chart">
+            <div class="chart-heading">
+                <span>Product</span>
+                <span>Relative weekly sales</span>
+            </div>
+
+            <ul id="product-list"></ul>
+
+            {% if not products %}
+            <div class="empty-state">
+                <h2>No products yet</h2>
+
+                <p>
+                    Add products through Django admin
+                    or the product form.
+                </p>
+
+                {% if user.is_staff %}
+                <a href="{% url 'sales:product_new' %}" class="primary-button">
+                    Add First Product
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </section>
+    </main>
+
+    {{ product_data|json_script:"product-data" }}
+
+    <script src="{% static 'sales/js/dashboard.js' %}"></script>
+</body>
+
+</html>

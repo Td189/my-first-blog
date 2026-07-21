@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ page_title }}</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'sales/css/sales.css' %}"
+    >
+</head>
+
+<body class="form-body">
+    <main class="form-page">
+        <header class="form-header">
+            <p class="eyebrow">
+                Sales dashboard
+            </p>
+
+            <h1>{{ page_title }}</h1>
+
+            <p>
+                Enter product prices, weekly sales,
+                a color, and an optional image URL.
+            </p>
+        </header>
+
+        <form method="POST" class="product-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">
+                    Product name
+                </label>
+
+                {{ form.name }}
+                {{ form.name.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.weekly_sales.id_for_label }}">
+                    Weekly sales
+                </label>
+
+                {{ form.weekly_sales }}
+                {{ form.weekly_sales.errors }}
+            </div>
+
+            <div class="two-column-group">
+                <div class="form-group">
+                    <label for="{{ form.original_price.id_for_label }}">
+                        Original price
+                    </label>
+
+                    {{ form.original_price }}
+                    {{ form.original_price.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.sale_price.id_for_label }}">
+                        Sale price
+                    </label>
+
+                    {{ form.sale_price }}
+                    {{ form.sale_price.errors }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.image_url.id_for_label }}">
+                    Product image URL
+                </label>
+
+                {{ form.image_url }}
+                {{ form.image_url.errors }}
+
+                <p class="input-help">
+                    Enter a direct JPG, PNG, or WebP URL.
+                </p>
+            </div>
+
+            <img
+                id="image-preview"
+                class="image-preview"
+                alt="Product preview"
+            >
+
+            <div class="form-group color-field">
+                <label for="{{ form.color.id_for_label }}">
+                    Fallback color
+                </label>
+
+                {{ form.color }}
+                {{ form.color.errors }}
+            </div>
+
+            <div class="checkbox-group">
+                {{ form.is_active }}
+
+                <label for="{{ form.is_active.id_for_label }}">
+                    Display this product on the homepage
+                </label>
+            </div>
+
+            <div class="button-row">
+                <button type="submit">
+                    {{ button_text }}
+                </button>
+
+                <a
+                    href="{% url 'sales:dashboard' %}"
+                    class="return-link"
+                >
+                    Return to Dashboard
+                </a>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        const imageInput =
+            document.getElementById("id_image_url");
+
+        const imagePreview =
+            document.getElementById("image-preview");
+
+        function updatePreview() {
+            const imageUrl =
+                imageInput.value.trim();
+
+            if (!imageUrl) {
+                imagePreview.style.display = "none";
+                imagePreview.removeAttribute("src");
+                return;
+            }
+
+            imagePreview.src = imageUrl;
+            imagePreview.style.display = "block";
+        }
+
+        imageInput.addEventListener(
+            "input",
+            updatePreview
+        );
+
+        imagePreview.addEventListener(
+            "error",
+            () => {
+                imagePreview.style.display = "none";
+            }
+        );
+
+        updatePreview();
+    </script>
+</body>
+</html>
