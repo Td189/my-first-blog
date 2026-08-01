@@ -1,20 +1,15 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{{ page_title }}</title>
 
-    <link
-        rel="stylesheet"
-        href="{% static 'sales/css/sales.css' %}"
-    >
+    <link rel="stylesheet" href="{% static 'sales/css/sales.css' %}">
 </head>
 
 <body class="form-body">
@@ -36,9 +31,9 @@
             {% csrf_token %}
 
             {% if form.non_field_errors %}
-                <div class="form-errors">
-                    {{ form.non_field_errors }}
-                </div>
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+            </div>
             {% endif %}
 
             <div class="form-group">
@@ -92,11 +87,7 @@
                 </p>
             </div>
 
-            <img
-                id="image-preview"
-                class="image-preview"
-                alt="Product preview"
-            >
+            <img src="{% static 'images/' %}{{ product.image }}" alt="{{ product.name }}" class="product-image">
 
             <div class="form-group color-field">
                 <label for="{{ form.color.id_for_label }}">
@@ -120,13 +111,19 @@
                     {{ button_text }}
                 </button>
 
-                <a
-                    href="{% url 'sales:dashboard' %}"
-                    class="return-link"
-                >
+                <a href="{% url 'sales:dashboard' %}" class="return-link">
                     Return to Dashboard
                 </a>
             </div>
+        </form>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                {{ button_text }}
+            </button>
         </form>
     </main>
 
@@ -166,4 +163,5 @@
         updatePreview();
     </script>
 </body>
+
 </html>

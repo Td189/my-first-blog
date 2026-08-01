@@ -27,3 +27,29 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+
+    original_price = models.DecimalField(
+        max_digits=8,
+        decimal_places=2
+    )
+
+    sale_price = models.DecimalField(
+        max_digits=8,
+        decimal_places=2
+    )
+
+    inventory = models.PositiveIntegerField(default=0)
+    sales = models.PositiveIntegerField(default=0)
+
+    # This can point to a static image or an online image.
+    image = models.ImageField(
+        upload_to="products/",
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return self.name
+

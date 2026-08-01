@@ -29,26 +29,45 @@ function createImageSquare(product) {
     const square = document.createElement("div");
 
     square.classList.add("product-square");
+
     square.style.backgroundColor =
         product.color || "#2563eb";
 
-    if (!product.imageUrl) {
-        square.classList.add("image-placeholder");
+    /*console.log(
+        product.name,
+        "image path:",
+        product.image
+    );*/
+
+    if (!product.image) {
+        square.classList.add(
+            "image-placeholder"
+        );
+
         square.textContent =
             product.name.charAt(0).toUpperCase();
 
         return square;
     }
 
-    const image = document.createElement("img");
+    const image =
+        document.createElement("img");
 
-    image.src = product.imageUrl;
+    image.src = product.image;
     image.alt = product.name;
     image.loading = "lazy";
 
-    image.addEventListener("error", () => {
-        image.remove();
+    /*image.addEventListener("load", () => {
+        console.log(
+            "Image loaded:",
+            product.image
+        );
+    });*/
 
+    image.addEventListener("error", () => {
+        console.error("FAILED IMAGE URL:", image.src);
+
+        image.remove();
         square.classList.add("image-placeholder");
         square.textContent =
             product.name.charAt(0).toUpperCase();

@@ -1,0 +1,131 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Product Inventory</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/products.css' %}"
+    >
+
+    <script
+        src="{% static 'js/products.js' %}"
+        defer
+    ></script>
+</head>
+
+<body>
+    <header class="page-header">
+        <h1>Product Inventory</h1>
+
+        <p>
+            Sell, restock, or remove products.
+        </p>
+    </header>
+
+    <!-- JavaScript reads this token for POST requests. -->
+    <form id="csrf-form" hidden>
+        {% csrf_token %}
+    </form>
+
+    <p
+        id="inventory-message"
+        role="status"
+        aria-live="polite"
+    ></p>
+
+    <main id="product-container">
+        {% for product in products %}
+            <article
+                class="product-card"
+                id="product-{{ product.id }}"
+                data-product-id="{{ product.id }}"
+            >
+                {% if product.image_url %}
+                    <img
+                        src="{{ product.image_url }}"
+                        alt="{{ product.name }}"
+                        class="product-image"
+                    >
+                {% endif %}
+
+                <h2>{{ product.name }}</h2>
+
+                <p>
+                    Original price:
+                    <del>
+                        ${{ product.original_price }}
+                    </del>
+                </p>
+
+                <p>
+                    Sale price:
+                    <strong>
+                        ${{ product.sale_price }}
+                    </strong>
+                </p>
+
+                <p>
+                    Inventory:
+                    <strong
+                        class="inventory-value"
+                    >
+                        {{ product.inventory }}
+                    </strong>
+                </p>
+
+                <p>
+                    Sales:
+                    <strong
+                        class="sales-value"
+                    >
+                        {{ product.sales }}
+                    </strong>
+                </p>
+
+                <button
+                    type="button"
+                    class="sell-button"
+                    {% if product.inventory == 0 %}
+                        disabled
+                    {% endif %}
+                >
+                    {% if product.inventory == 0 %}
+                        Out of Stock
+                    {% else %}
+                        Sell One
+                    {% endif %}
+                </button>
+
+                <button
+                    type="button"
+                    class="restock-button"
+                >
+                    Restock
+                </button>
+
+                <button
+                    type="button"
+                    class="remove-button"
+                >
+                    Remove
+                </button>
+            </article>
+        {% empty %}
+            <p id="empty-message">
+                No products are available. Add one through
+                the Django admin panel.
+            </p>
+        {% endfor %}
+    </main>
+</body>
+</html>

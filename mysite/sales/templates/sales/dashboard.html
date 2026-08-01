@@ -13,12 +13,12 @@
 
 <body>
     {% if user.is_staff %}
-    <a
+    <!--<a
         href="{% url 'sales:product_new' %}"
         class="primary-button"
     >
         Add Product
-    </a>
+    </a>-->
 {% else %}
     <a
         href="{% url 'admin:login' %}?next={% url 'sales:product_new' %}"
@@ -44,9 +44,9 @@
         </a>
 
         {% if user.is_staff %}
-        <a href="{% url 'sales:product_new' %}" class="primary-button">
+        <!--<a href="{% url 'sales:product_new' %}" class="primary-button">
             Add Product
-        </a>
+        </a>-->
 
         <a href="{% url 'admin:index' %}" class="secondary-button">
             Admin

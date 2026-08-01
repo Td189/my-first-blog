@@ -12,7 +12,7 @@ class ProductForm(forms.ModelForm):
             "weekly_sales",
             "original_price",
             "sale_price",
-            "image_url",
+            "image",
             "color",
             "is_active",
         )

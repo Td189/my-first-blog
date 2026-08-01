@@ -28,9 +28,10 @@ class Product(models.Model):
         ],
     )
 
-    image_url = models.URLField(
+    image = models.ImageField(
+    upload_to="products/",
     blank=True,
-    help_text="Optional direct URL to a product image.",
+    null=True,
 )
 
     color = models.CharField(

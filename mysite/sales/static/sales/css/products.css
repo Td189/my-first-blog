@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    background: #f3f5f7;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+#product-container {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(230px, 1fr));/*Fits as many columns as possible on the screen*/
+    gap: 1.25rem;
+}
+
+.product-card {
+    padding: 1.25rem;
+    border: 1px solid #cccccc;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 12px
+        rgba(0, 0, 0, 0.08);
+}
+
+.product-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+button {
+    margin: 0.25rem;
+    padding: 0.65rem 0.9rem;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.remove-button {
+    background: #b3261e;
+    color: white;
+}
+
+#inventory-message {
+    min-height: 1.5rem;
+    font-weight: bold;
+    color: #176b31;
+}
+
+.error-message {
+    color: #b3261e !important;
+}
